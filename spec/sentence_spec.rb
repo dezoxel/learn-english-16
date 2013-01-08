@@ -11,14 +11,14 @@ describe Sentence do
   end
 
   it "has all known personal pronouns" do
-    Sentence.pronouns.should == [:i, :thou, :you, :we, :they, :he, :she]
+    Sentence.pronouns.should == ["i", "thou", "you", "we", "they", "he", "she"]
   end
 
   it "defines personal pronouns is it he or she" do
-    Sentence.is_he_she?(:he).should be_true
-    Sentence.is_he_she?(:she).should be_true
-    Sentence.is_he_she?(:i).should be_false
-    Sentence.is_he_she?(:we).should be_false
+    Sentence.is_he_she?("he").should be_true
+    Sentence.is_he_she?("she").should be_true
+    Sentence.is_he_she?("i").should be_false
+    Sentence.is_he_she?("we").should be_false
   end
 
   it "has the set of verbs" do
