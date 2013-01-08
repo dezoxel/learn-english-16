@@ -34,8 +34,13 @@ class Conversation
     ""
   end
 
-  def generate_rand_parts_of_sentence
-    ["", "", "", ""]
+  def generate_rand_data_for_sentence
+    [
+      Sentence.tenses[rand(Sentence.tenses.length)],
+      Sentence.expression_forms[rand(Sentence.expression_forms.length)],
+      Sentence.pronouns[rand(Sentence.pronouns.length)],
+      Sentence.verbs[rand(Sentence.verbs.length)],
+    ]
   end
 
   def show_to_companion(message)
