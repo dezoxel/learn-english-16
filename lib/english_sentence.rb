@@ -31,4 +31,16 @@ class EnglishSentence < Sentence
   def past_negation_for(pronoun, verb)
     "#{pronoun} didn't #{verb}"
   end
+
+  def future_statement_for(pronoun, verb)
+    "#{pronoun} will #{verb}"
+  end
+
+  def future_question_for(pronoun, verb)
+    "will #{pronoun} #{verb}?"
+  end
+
+  def future_negation_for(pronoun, verb)
+    "#{pronoun} will not #{verb}"
+  end
 end
