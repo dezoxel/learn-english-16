@@ -2,8 +2,8 @@
 require_relative 'spec_helper'
 require_relative '../lib/russian_english_map'
 
-describe RussianEnglishMap do
-  let(:map) { RussianEnglishMap.new }
+describe Russian_English_Map do
+  let(:map) { Russian_English_Map.new }
 
   it "receieves russian equivalent of english pronoun" do
     map[:pronoun, :i].should    == :я

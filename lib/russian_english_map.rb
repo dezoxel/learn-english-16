@@ -1,5 +1,5 @@
 # encoding: utf-8
-class RussianEnglishMap
+class Russian_English_Map
   attr_accessor :translate_to_language
 
   def initialize

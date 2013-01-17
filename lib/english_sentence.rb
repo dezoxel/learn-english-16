@@ -1,6 +1,7 @@
 require_relative 'sentence'
 require_relative 'string'
-class EnglishSentence < Sentence
+
+class English_Sentence < Sentence
 
   def present_statement_for(pronoun, verb)
     verb += "s" if self.class.is_he_she? pronoun

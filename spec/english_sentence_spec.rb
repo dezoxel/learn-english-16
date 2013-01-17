@@ -1,8 +1,8 @@
 require_relative 'spec_helper'
 require_relative '../lib/english_sentence'
 
-describe EnglishSentence do
-  let(:sentence) { EnglishSentence.new }
+describe English_Sentence do
+  let(:sentence) { English_Sentence.new }
 
   it "#present_statement_for" do
     sentence.present_statement_for("i", "love").should == "i love"
