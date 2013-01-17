@@ -42,13 +42,12 @@ describe Russian_English_Map do
     map[:verb, :любить].should == :love
   end
 
-  it "receives russian verb in right form by english verb and pronoun" do
-    map.russian_verb_by_pronoun(:love, :i).should    == :люблю
-    map.russian_verb_by_pronoun(:love, :you).should  == :любите
-    map.russian_verb_by_pronoun(:love, :we).should   == :любим
-    map.russian_verb_by_pronoun(:love, :they).should == :любят
-    map.russian_verb_by_pronoun(:love, :he).should   == :любит
-    map.russian_verb_by_pronoun(:love, :she).should  == :любит
-    map.russian_verb_by_pronoun(:love, :it).should   == :любит
+  it "receives russian verb in right form by verb and pronoun" do
+    map.russian_verb_by_pronoun(:любить, :я).should   == :люблю
+    map.russian_verb_by_pronoun(:любить, :вы).should  == :любите
+    map.russian_verb_by_pronoun(:любить, :мы).should  == :любим
+    map.russian_verb_by_pronoun(:любить, :они).should == :любят
+    map.russian_verb_by_pronoun(:любить, :он).should  == :любит
+    map.russian_verb_by_pronoun(:любить, :она).should == :любит
   end
 end

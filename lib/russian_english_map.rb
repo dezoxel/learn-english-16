@@ -47,8 +47,6 @@ class Russian_English_Map
   end
 
   def russian_verb_by_pronoun(verb, pronoun)
-    infinitive_verb = self[:verb, verb]
-    russian_pronoun = self[:pronoun, pronoun]
-    @russian_verbs_by_pronoun[infinitive_verb][russian_pronoun]
+    @russian_verbs_by_pronoun[verb.to_sym][pronoun.to_sym]
   end
 end
