@@ -1,11 +1,11 @@
 require_relative 'sentence'
 require_relative 'string'
-require_relative 'irregular_verbs'
+require 'yaml'
 
 class English_Sentence < Sentence
 
   def initialize
-    @irregular_verbs = Irregular_Verbs.new
+    @irregular_verbs = YAML.load_file("./db/irregular_verbs.yml")
   end
 
   def present_statement_for(pronoun, verb)
@@ -26,7 +26,7 @@ class English_Sentence < Sentence
   end
 
   def past_statement_for(pronoun, verb)
-    verb = @irregular_verbs[verb] ? @irregular_verbs[verb] : verb[0..-2]+"ed" if verb.ends_with? "e"
+    verb = @irregular_verbs[verb] ? @irregular_verbs[verb]["second"] : verb[0..-2]+"ed" if verb.ends_with? "e"
     "#{pronoun} #{verb}"
   end
 
