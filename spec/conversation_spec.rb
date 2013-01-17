@@ -9,6 +9,8 @@ end
 
 describe Conversation do
   let(:conversation) { Conversation.new }
+  let(:pronouns) { YAML.load_file('./db/pronouns.yml').keys }
+  let(:verbs) { YAML.load_file('./db/verbs.yml').keys }
 
   it "has a congrats function when companion answers correctly" do
     conversation.respond_to?(:congrats).should be_true
@@ -30,11 +32,11 @@ describe Conversation do
   it "generates tense, form, pronoun and verb for constructing sentence" do
     data = conversation.generate_rand_data_for_sentence
     tense, form, pronoun, verb = data
-    
+
     Sentence.tenses.should include tense
     Sentence.expression_forms.should include form
-    Sentence.pronouns.should include pronoun
-    Sentence.verbs.should include verb
+    pronouns.should include pronoun
+    verbs.should include verb
   end
 
   it "generates rand tense, form, pronoun and verb for constructing sentence" do

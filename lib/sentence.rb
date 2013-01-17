@@ -7,14 +7,6 @@ class Sentence
     [:statement, :question, :negation]
   end
 
-  def self.pronouns
-    ["i", "you", "we", "they", "he", "she"]
-  end
-
-  def self.verbs
-    ["program", "love", "live"]
-  end
-
   def self.is_he_she?(pronoun)
     ["he", "she"].include? pronoun
   end

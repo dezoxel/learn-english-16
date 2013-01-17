@@ -35,11 +35,13 @@ class Conversation
   end
 
   def generate_rand_data_for_sentence
+    @pronouns ||= YAML.load_file('./db/pronouns.yml').keys
+    @verbs ||= YAML.load_file('./db/verbs.yml').keys
     [
       Sentence.tenses[rand(Sentence.tenses.length)],
       Sentence.expression_forms[rand(Sentence.expression_forms.length)],
-      Sentence.pronouns[rand(Sentence.pronouns.length)],
-      Sentence.verbs[rand(Sentence.verbs.length)],
+      @pronouns[rand(@pronouns.length)],
+      @verbs[rand(@verbs.length)],
     ]
   end
 
