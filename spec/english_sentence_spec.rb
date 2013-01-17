@@ -37,7 +37,9 @@ describe English_Sentence do
     sentence.past_statement_for("we", "love").should == "we loved"
     sentence.past_statement_for("they", "love").should == "they loved"
     sentence.past_statement_for("he", "love").should == "he loved"
+    sentence.past_statement_for("he", "see").should == "he saw"
     sentence.past_statement_for("she", "love").should == "she loved"
+    sentence.past_statement_for("she", "see").should == "she saw"
   end
 
   it "#past_question_for" do

@@ -1,7 +1,12 @@
 require_relative 'sentence'
 require_relative 'string'
+require_relative 'irregular_verbs'
 
 class English_Sentence < Sentence
+
+  def initialize
+    @irregular_verbs = Irregular_Verbs.new
+  end
 
   def present_statement_for(pronoun, verb)
     verb += "s" if self.class.is_he_she? pronoun
@@ -21,8 +26,8 @@ class English_Sentence < Sentence
   end
 
   def past_statement_for(pronoun, verb)
-    verb = verb[0..-2] if verb.ends_with? "e"
-    "#{pronoun} #{verb}ed"
+    verb = @irregular_verbs[verb] ? @irregular_verbs[verb] : verb[0..-2]+"ed" if verb.ends_with? "e"
+    "#{pronoun} #{verb}"
   end
 
   def past_question_for(pronoun, verb)
