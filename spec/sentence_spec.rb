@@ -11,7 +11,7 @@ describe Sentence do
   end
 
   it "has all known personal pronouns" do
-    Sentence.pronouns.should == ["i", "thou", "you", "we", "they", "he", "she"]
+    Sentence.pronouns.should == ["i", "you", "we", "they", "he", "she"]
   end
 
   it "defines personal pronouns is it he or she" do

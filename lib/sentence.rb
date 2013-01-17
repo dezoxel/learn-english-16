@@ -8,7 +8,7 @@ class Sentence
   end
 
   def self.pronouns
-    ["i", "thou", "you", "we", "they", "he", "she"]
+    ["i", "you", "we", "they", "he", "she"]
   end
 
   def self.verbs
