@@ -7,7 +7,7 @@ class Sentence
     [:statement, :question, :negation]
   end
 
-  def self.is_he_she?(pronoun)
-    ["he", "she"].include? pronoun
+  def self.is_he_she_it?(pronoun)
+    ["he", "she", "it"].include? pronoun
   end
 end

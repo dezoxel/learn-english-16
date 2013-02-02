@@ -11,9 +11,9 @@ describe Sentence do
   end
 
   it "defines personal pronouns is it he or she" do
-    Sentence.is_he_she?("he").should be_true
-    Sentence.is_he_she?("she").should be_true
-    Sentence.is_he_she?("i").should be_false
-    Sentence.is_he_she?("we").should be_false
+    Sentence.is_he_she_it?("he").should be_true
+    Sentence.is_he_she_it?("she").should be_true
+    Sentence.is_he_she_it?("i").should be_false
+    Sentence.is_he_she_it?("we").should be_false
   end
 end
