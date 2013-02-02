@@ -1,6 +1,17 @@
+require 'yaml'
+require_relative 'russian_sentence'
+require_relative 'english_sentence'
+
+
 class Conversation
+
+  def initialize
+    @pronouns = YAML.load_file('./db/pronouns.yml')
+    @verbs = YAML.load_file('./db/verbs.yml')
+  end
+
   def waiting_for_answer
-    STDOUT.print ">"
+    STDOUT.print "> "
     STDIN.gets.chop
   end
 
@@ -10,7 +21,7 @@ class Conversation
 
   def start
     loop do
-      tense, form, pronoun, verb = generate_rand_parts_of_sentence
+      tense, form, pronoun, verb = generate_rand_data_for_sentence
       sentence_rus = generate_russian_sentence_by tense, form, pronoun, verb
       sentence_eng = generate_english_sentence_by tense, form, pronoun, verb
 
@@ -27,21 +38,23 @@ class Conversation
   end
 
   def generate_russian_sentence_by(tense, form, pronoun, verb)
-    ""
+    rus_pronoun = @pronouns[pronoun]
+    rus_verb = @verbs[verb]
+    Russian_Sentence.new.send("#{tense}_#{form}_for", rus_pronoun, rus_verb)
   end
 
   def generate_english_sentence_by(tense, form, pronoun, verb)
-    ""
+    English_Sentence.new.send("#{tense}_#{form}_for", pronoun, verb)
   end
 
   def generate_rand_data_for_sentence
-    @pronouns ||= YAML.load_file('./db/pronouns.yml').keys
-    @verbs ||= YAML.load_file('./db/verbs.yml').keys
+    @pronouns_list ||= @pronouns.keys
+    @verbs_list ||= @verbs.keys
     [
       Sentence.tenses[rand(Sentence.tenses.length)],
       Sentence.expression_forms[rand(Sentence.expression_forms.length)],
-      @pronouns[rand(@pronouns.length)],
-      @verbs[rand(@verbs.length)],
+      @pronouns_list[rand(@pronouns_list.length)],
+      @verbs_list[rand(@verbs_list.length)],
     ]
   end
 
@@ -50,11 +63,11 @@ class Conversation
   end
 
   def congrats
-    STDOUT.puts "You are right!"
+    # Nothing showing when competitor answers right
   end
 
   def upset(expected_sentence)
-    STDOUT.puts "No, you are wrong! Right is: '#{expected_sentence}'"
+    STDOUT.puts "BAD: No, you are wrong! Right is: '#{expected_sentence}'"
   end
 end
 
