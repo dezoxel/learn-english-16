@@ -9,7 +9,6 @@ end
 
 describe Conversation do
   let(:conversation) { Conversation.new }
-  let(:pronouns) { YAML.load_file('./db/pronouns.yml').keys }
   let(:verbs) { YAML.load_file('./db/verbs.yml').keys }
 
   it "has a congrats function when companion answers correctly" do
@@ -35,7 +34,7 @@ describe Conversation do
 
     Sentence.tenses.should include tense
     Sentence.expression_forms.should include form
-    pronouns.should include pronoun
+    Sentence.pronouns("first").should include pronoun
     verbs.should include verb
   end
 

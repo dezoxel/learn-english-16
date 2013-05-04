@@ -7,7 +7,6 @@ class Russian_Sentence < Sentence
   def initialize
     @verbs = YAML.load_file("./db/verbs.yml")
     @russian_verbs = YAML.load_file("./db/russian_verbs.yml")
-    @pronouns = YAML.load_file("./db/pronouns.yml")
   end
 
   def present_statement_for(pronoun, verb)

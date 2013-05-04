@@ -6,7 +6,6 @@ require_relative 'english_sentence'
 class Conversation
 
   def initialize
-    @pronouns = YAML.load_file('./db/pronouns.yml')
     @verbs = YAML.load_file('./db/verbs.yml')
   end
 
@@ -22,8 +21,8 @@ class Conversation
   def start
     loop do
       tense, form, pronoun, verb = generate_rand_data_for_sentence
-      sentence_rus = generate_russian_sentence_by tense, form, pronoun, verb
-      sentence_eng = generate_english_sentence_by tense, form, pronoun, verb
+      sentence_rus = construct_russian_sentence_by tense, form, pronoun, verb
+      sentence_eng = construct_english_sentence_by tense, form, pronoun, verb
 
       show_to_companion sentence_rus
       answer = waiting_for_answer
@@ -37,23 +36,24 @@ class Conversation
     end
   end
 
-  def generate_russian_sentence_by(tense, form, pronoun, verb)
-    rus_pronoun = @pronouns[pronoun]
+  def construct_russian_sentence_by(tense, form, pronoun, verb)
+    index = Sentence.pronouns("first").index(pronoun)
+    rus_pronoun = Sentence.pronouns("first", "rus")[index]
     rus_verb = @verbs[verb]
     Russian_Sentence.new.send("#{tense}_#{form}_for", rus_pronoun, rus_verb)
   end
 
-  def generate_english_sentence_by(tense, form, pronoun, verb)
+  def construct_english_sentence_by(tense, form, pronoun, verb)
     English_Sentence.new.send("#{tense}_#{form}_for", pronoun, verb)
   end
 
   def generate_rand_data_for_sentence
-    @pronouns_list ||= @pronouns.keys
+    @first_person_pronouns ||= Sentence.pronouns("first")
     @verbs_list ||= @verbs.keys
     [
       Sentence.tenses[rand(Sentence.tenses.length)],
       Sentence.expression_forms[rand(Sentence.expression_forms.length)],
-      @pronouns_list[rand(@pronouns_list.length)],
+      @first_person_pronouns[rand(@first_person_pronouns.length)],
       @verbs_list[rand(@verbs_list.length)],
     ]
   end
