@@ -1,12 +1,27 @@
 see:
   second: saw
+  third: seen
 do:
   second: did
+  third: done
 speak:
   second: spoke
+  third: spoken
 come:
   second: came
+  third: come
 go:
   second: went
+  third: gone
 know:
   second: knew
+  third: known
+give:
+  second: gave
+  third: given
+take:
+  second: took
+  third: taken
+read:
+  second: read
+  third: read
