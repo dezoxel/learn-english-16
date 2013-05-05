@@ -4,86 +4,84 @@ require_relative '../lib/english_sentence'
 describe English_Sentence do
   let(:sentence) { English_Sentence.new }
 
-  it "#present_statement_for" do
-    sentence.present_statement_for("i", "love").should == "i love"
-    sentence.present_statement_for("you", "love").should == "you love"
-    sentence.present_statement_for("we", "love").should == "we love"
-    sentence.present_statement_for("they", "love").should == "they love"
-    sentence.present_statement_for("he", "love").should == "he loves"
-    sentence.present_statement_for("she", "love").should == "she loves"
+  context "when builds present statement sentence" do
+    let(:sentence) { English_Sentence.new.tap{ |s| s.tense = :present; s.expression_form = :statement } }
+
+    it "builds present statement sentence" do
+      sentence.pronoun("i").verb("love").assemble!.should == "i love"
+    end
+
+    it "adds '-s' ending to the third person pronouns" do
+      sentence.pronoun("he").verb("love").assemble!.should == "he loves"
+    end
+
+    it "recognizes cases with '-s' and '-es' endings" do
+      sentence.pronoun("she").verb("go").assemble!.should == "she goes"
+    end
+
   end
 
-  it "#present_question_for" do
-    sentence.present_question_for("i", "love").should == "do i love?"
-    sentence.present_question_for("you", "love").should == "do you love?"
-    sentence.present_question_for("we", "love").should == "do we love?"
-    sentence.present_question_for("they", "love").should == "do they love?"
-    sentence.present_question_for("he", "love").should == "does he love?"
-    sentence.present_question_for("she", "love").should == "does she love?"
+  context "when builds present question sentence" do
+    let(:sentence) { English_Sentence.new.tap{ |s| s.tense = :present; s.expression_form = :question } }
+
+    it "builds present question sentence" do
+      sentence.pronoun("we").verb("love").assemble!.should == "do we love ?"
+    end
+
+    it "uses 'does' auxiliary verb for the third person pronouns" do
+      sentence.pronoun("he").verb("love").assemble!.should == "does he love ?"
+    end
+
   end
 
-  it "#present_question_for" do
-    sentence.present_negation_for("i", "love").should == "i don't love"
-    sentence.present_negation_for("you", "love").should == "you don't love"
-    sentence.present_negation_for("we", "love").should == "we don't love"
-    sentence.present_negation_for("they", "love").should == "they don't love"
-    sentence.present_negation_for("he", "love").should == "he doesn't love"
-    sentence.present_negation_for("she", "love").should == "she doesn't love"
+  context "when builds present negation sentence" do
+    let(:sentence) { English_Sentence.new.tap{ |s| s.tense = :present; s.expression_form = :negation } }
+
+    it "builds present negation sentence" do
+      sentence.pronoun("you").verb("love").assemble!.should == "you don't love"
+    end
+
+    it "uses `doesn't` auxiliary verb for the third person pronouns" do
+      sentence.pronoun("she").verb("love").assemble!.should == "she doesn't love"
+    end
+
   end
 
-  it "#past_statement_for" do
-    sentence.past_statement_for("i", "love").should == "i loved"
-    sentence.past_statement_for("you", "love").should == "you loved"
-    sentence.past_statement_for("we", "love").should == "we loved"
-    sentence.past_statement_for("they", "love").should == "they loved"
-    sentence.past_statement_for("he", "love").should == "he loved"
-    sentence.past_statement_for("he", "see").should == "he saw"
-    sentence.past_statement_for("she", "love").should == "she loved"
-    sentence.past_statement_for("she", "see").should == "she saw"
+  context "when builds past statement sentence" do
+    let(:sentence) { English_Sentence.new.tap{ |s| s.tense = :past; s.expression_form = :statement } }
+
+    it "builds past statement sentence" do
+      sentence.pronoun("they").verb("love").assemble!.should == "they loved"
+    end
+
+    it "recognizes irregular verbs" do
+      sentence.pronoun("it").verb("see").assemble!.should == "it saw"
+    end
+
   end
 
-  it "#past_question_for" do
-    sentence.past_question_for("i", "love").should == "did i love?"
-    sentence.past_question_for("you", "love").should == "did you love?"
-    sentence.past_question_for("we", "love").should == "did we love?"
-    sentence.past_question_for("they", "love").should == "did they love?"
-    sentence.past_question_for("he", "love").should == "did he love?"
-    sentence.past_question_for("she", "love").should == "did she love?"
+  it "builds past question sentence" do
+    sentence.tap{ |s| s.tense = :past; s.expression_form = :question }
+      .pronoun("you").verb("love").assemble!.should == "did you love ?"
   end
 
-  it "#past_negation_for" do
-    sentence.past_negation_for("i", "love").should == "i didn't love"
-    sentence.past_negation_for("you", "love").should == "you didn't love"
-    sentence.past_negation_for("we", "love").should == "we didn't love"
-    sentence.past_negation_for("they", "love").should == "they didn't love"
-    sentence.past_negation_for("he", "love").should == "he didn't love"
-    sentence.past_negation_for("she", "love").should == "she didn't love"
+  it "builds past negation sentence" do
+    sentence.tap{ |s| s.tense = :past; s.expression_form = :negation }
+      .pronoun("she").verb("love").assemble!.should == "she didn't love"
   end
 
-  it "#future_statement_for" do
-    sentence.future_statement_for("i", "love").should == "i will love"
-    sentence.future_statement_for("you", "love").should == "you will love"
-    sentence.future_statement_for("we", "love").should == "we will love"
-    sentence.future_statement_for("they", "love").should == "they will love"
-    sentence.future_statement_for("he", "love").should == "he will love"
-    sentence.future_statement_for("she", "love").should == "she will love"
+  it "builds future statement sentence" do
+    sentence.tap{ |s| s.tense = :future; s.expression_form = :statement }
+      .pronoun("i").verb("love").assemble!.should == "i will love"
   end
 
-  it "#future_question_for" do
-    sentence.future_question_for("i", "love").should == "will i love?"
-    sentence.future_question_for("you", "love").should == "will you love?"
-    sentence.future_question_for("we", "love").should == "will we love?"
-    sentence.future_question_for("they", "love").should == "will they love?"
-    sentence.future_question_for("he", "love").should == "will he love?"
-    sentence.future_question_for("she", "love").should == "will she love?"
+  it "builds future question sentence" do
+    sentence.tap{ |s| s.tense = :future; s.expression_form = :question }
+      .pronoun("you").verb("love").assemble!.should == "will you love ?"
   end
 
-  it "#future_negation_for" do
-    sentence.future_negation_for("i", "love").should == "i will not love"
-    sentence.future_negation_for("you", "love").should == "you will not love"
-    sentence.future_negation_for("we", "love").should == "we will not love"
-    sentence.future_negation_for("they", "love").should == "they will not love"
-    sentence.future_negation_for("he", "love").should == "he will not love"
-    sentence.future_negation_for("she", "love").should == "she will not love"
+  it "builds future negation sentence" do
+    sentence.tap{ |s| s.tense = :future; s.expression_form = :negation }
+      .pronoun("they").verb("love").assemble!.should == "they won't love"
   end
 end

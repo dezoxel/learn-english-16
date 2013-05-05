@@ -34,7 +34,7 @@ describe Conversation do
 
     Sentence.tenses.should include tense
     Sentence.expression_forms.should include form
-    Sentence.pronouns("first").should include pronoun
+    Sentence.pronouns(:first).should include pronoun
     verbs.should include verb
   end
 

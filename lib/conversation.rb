@@ -37,18 +37,18 @@ class Conversation
   end
 
   def construct_russian_sentence_by(tense, form, pronoun, verb)
-    index = Sentence.pronouns("first").index(pronoun)
-    rus_pronoun = Sentence.pronouns("first", "rus")[index]
+    index = Sentence.pronouns(:first).index(pronoun)
+    rus_pronoun = Sentence.pronouns(:first, :rus)[index]
     rus_verb = @verbs[verb]
     Russian_Sentence.new.send("#{tense}_#{form}_for", rus_pronoun, rus_verb)
   end
 
   def construct_english_sentence_by(tense, form, pronoun, verb)
-    English_Sentence.new.send("#{tense}_#{form}_for", pronoun, verb)
+    English_Sentence.new.tense(tense).expression_form(form).pronoun(pronoun).verb(verb).assemble!
   end
 
   def generate_rand_data_for_sentence
-    @first_person_pronouns ||= Sentence.pronouns("first")
+    @first_person_pronouns ||= Sentence.pronouns(:first)
     @verbs_list ||= @verbs.keys
     [
       Sentence.tenses[rand(Sentence.tenses.length)],

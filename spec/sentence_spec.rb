@@ -20,31 +20,31 @@ describe Sentence do
   end
 
   it "has pronouns" do
-    Sentence.pronouns(nil, "eng").should_not be_nil
-    Sentence.pronouns(nil, "rus").should_not be_nil
+    Sentence.pronouns(nil, :eng).should_not be_nil
+    Sentence.pronouns(nil, :rus).should_not be_nil
   end
 
   it "has english pronouns of first person" do
-    Sentence.pronouns("first").should == ["i", "you", "we", "they", "he", "she", "it"]
+    Sentence.pronouns(:first).should == ["i", "you", "we", "they", "he", "she", "it"]
   end
 
   it "has english pronouns of second person" do
-    Sentence.pronouns("second").should == ["me", "you",  "us",  "them",  "him", "her", "it"]
+    Sentence.pronouns(:second).should == ["me", "you",  "us",  "them",  "him", "her", "it"]
   end
 
   it "has english pronouns of third person" do
-    Sentence.pronouns("third").should == ["my", "your", "our", "their", "his", "her", "its"]
+    Sentence.pronouns(:third).should == ["my", "your", "our", "their", "his", "her", "its"]
   end
 
   it "has russian pronouns of first person" do
-    Sentence.pronouns("first", "rus").should == ["я", "вы", "мы", "они", "он", "она", "оно"]
+    Sentence.pronouns(:first, :rus).should == ["я", "вы", "мы", "они", "он", "она", "оно"]
   end
 
   it "has russian pronouns of second person" do
-    Sentence.pronouns("second", "rus").should == ["мне/меня", "вас", "нас/нам", "им/их", "ему/его", "ее/ей", "этому"]
+    Sentence.pronouns(:second, :rus).should == ["мне/меня", "вас", "нас/нам", "им/их", "ему/его", "ее/ей", "этому"]
   end
 
   it "has russian pronouns of third person" do
-    Sentence.pronouns("third", "rus").should == ["мое/мои", "ваше", "наш/наше", "их", "его", "ее", "этого"]
+    Sentence.pronouns(:third, :rus).should == ["мое/мои", "ваше", "наш/наше", "их", "его", "ее", "этого"]
   end
 end
