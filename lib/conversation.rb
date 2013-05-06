@@ -40,7 +40,7 @@ class Conversation
     index = Sentence.pronouns(:first).index(pronoun)
     rus_pronoun = Sentence.pronouns(:first, :rus)[index]
     rus_verb = @verbs[verb]
-    Russian_Sentence.new.send("#{tense}_#{form}_for", rus_pronoun, rus_verb)
+    Russian_Sentence.new.tense(tense).expression_form(form).pronoun(rus_pronoun).verb(rus_verb).assemble!
   end
 
   def construct_english_sentence_by(tense, form, pronoun, verb)

@@ -5,52 +5,51 @@ require_relative 'string'
 class Russian_Sentence < Sentence
 
   def initialize
-    @verbs = YAML.load_file("./db/verbs.yml")
+    super
     @russian_verbs = YAML.load_file("./db/russian_verbs.yml")
+    @lang = :rus
   end
 
-  def present_statement_for(pronoun, verb)
-    verb = @russian_verbs[verb]["настоящее"][pronoun]
-    "#{pronoun} #{verb}"
+  def assemble!
+    pronoun_index = @parts.find_index{ |part| part[:type] == :pronoun }
+    verb_index = @parts.find_index{ |part| part[:type] == :verb }
+    pronoun = @parts[pronoun_index][:value]
+    verb = @parts[verb_index][:value]
+
+    send("#{@expression_form}_modificator", @tense, pronoun_index, verb_index, pronoun, verb)
+
+    @parts.map { |part| part[:value] }.join(" ")
   end
 
-  def present_question_for(pronoun, verb)
-    verb = @russian_verbs[verb]["настоящее"][pronoun]
-    "#{pronoun} #{verb}?"
+  def statement_modificator(tense, pronoun_index, verb_index, pronoun, verb)
+    verb = @russian_verbs[verb][convert_tense_to_russian(tense).to_s][pronoun]
+    @parts[verb_index][:value] = verb 
   end
 
-  def present_negation_for(pronoun, verb)
-    verb = @russian_verbs[verb]["настоящее"][pronoun]
-    "#{pronoun} не #{verb}"
+  def question_modificator(tense, pronoun_index, verb_index, pronoun, verb)
+    verb = @russian_verbs[verb][convert_tense_to_russian(tense).to_s][pronoun]
+    @parts[verb_index][:value] = verb 
+    @parts.push(:value => "?", :type => :punctuation)
   end
 
-  def past_statement_for(pronoun, verb)
-    verb = @russian_verbs[verb]["прошлое"][pronoun]
-    "#{pronoun} #{verb}"
+  def negation_modificator(tense, pronoun_index, verb_index, pronoun, verb)
+    verb = @russian_verbs[verb][convert_tense_to_russian(tense).to_s][pronoun]
+    @parts[verb_index][:value] = verb 
+    @parts.insert(verb_index, :value => "не", :type => :auxiliary_verb)
   end
 
-  def past_question_for(pronoun, verb)
-    verb = @russian_verbs[verb]["прошлое"][pronoun]
-    "#{pronoun} #{verb}?"
+  def self.database_verbs_diff
+    map_verbs = YAML.load_file("./db/verbs.yml").values
+    russian_verbs = YAML.load_file("./db/russian_verbs.yml").keys
+    diff1 = map_verbs - russian_verbs
+    return diff1 unless diff1.empty?
+    russian_verbs - map_verbs
   end
 
-  def past_negation_for(pronoun, verb)
-    verb = @russian_verbs[verb]["прошлое"][pronoun]
-    "#{pronoun} не #{verb}"
+protected
+
+  def convert_tense_to_russian(tense)
+    Sentence.rus_tenses[Sentence.tenses.index(tense)]
   end
 
-  def future_statement_for(pronoun, verb)
-    verb = @russian_verbs[verb]["будущее"][pronoun]
-    "#{pronoun} #{verb}"
-  end
-
-  def future_question_for(pronoun, verb)
-    verb = @russian_verbs[verb]["будущее"][pronoun]
-    "#{pronoun} #{verb}?"
-  end
-
-  def future_negation_for(pronoun, verb)
-    verb = @russian_verbs[verb]["будущее"][pronoun]
-    "#{pronoun} не #{verb}"
-  end
 end

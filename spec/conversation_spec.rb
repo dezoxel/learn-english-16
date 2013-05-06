@@ -1,3 +1,4 @@
+# coding: utf-8
 require_relative 'spec_helper'
 require_relative '../lib/conversation'
 
@@ -38,10 +39,18 @@ describe Conversation do
     verbs.should include verb
   end
 
-  it "generates rand tense, form, pronoun and verb for constructing sentence" do
+  it "generates random data" do
     data1 = conversation.generate_rand_data_for_sentence
     data2 = conversation.generate_rand_data_for_sentence
 
     data1.should_not == data2
+  end
+
+  it "constructs english sentence by tense, form, pronoun and verb" do
+    conversation.construct_english_sentence_by(:past, :statement, "i", "love").should eql "i loved"
+  end
+
+  it "constructs russian sentence using english tense, form, pronoun and verb" do
+    conversation.construct_russian_sentence_by(:past, :statement, "i", "love").should == "я любил"
   end
 end

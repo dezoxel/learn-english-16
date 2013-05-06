@@ -5,6 +5,7 @@ class Sentence
 
   def initialize
     @parts = []
+    @verbs = YAML.load_file("./db/verbs.yml")
     @tense = :present
     @expression_form = :statement
     @lang = :eng
@@ -14,8 +15,9 @@ class Sentence
     person = options[:person] || :first
     lang = options[:lang] || @lang
 
-    raise "Unknown person. Allowable are ':first', ':second', ':third'" unless self.class.validate_person(person) 
-    raise "Unknown language. Allowable are ':eng', ':rus'" unless self.class.validate_language(lang) 
+    raise "Unknown person. Allowable are ':first', ':second', ':third'" unless Sentence.validate_person(person) 
+    raise "Unknown language. Allowable are ':eng', ':rus'" unless Sentence.validate_language(lang) 
+    raise "Unknown pronoun. Allowable are '#{Sentence.pronouns(person, lang).join(", ")}'" unless Sentence.validate_pronoun(pronoun, person, lang) 
 
     word = Sentence.convert_pronoun({:to_person => person, :lang => lang}, pronoun)
     @parts <<  {:value => word, :type => :pronoun}
@@ -23,7 +25,9 @@ class Sentence
   end
 
   def verb(verb, options = {})
-    @parts <<  {:value => "to "+verb, :type => :verb}
+    raise "Unknown verb #{verb}." unless validate_verb(verb) 
+    verb = "to " + verb if @lang == :eng
+    @parts <<  {:value => verb, :type => :verb}
     self
   end
 
@@ -51,6 +55,15 @@ class Sentence
     self.languages.include? lang
   end
 
+  def validate_verb(verb)
+    verbs = @lang == :eng ? @verbs.keys : @verbs.values
+    verbs.include? verb
+  end
+
+  def self.validate_pronoun(pronoun, person, lang = :eng)
+    self.pronouns(person, lang).include? pronoun
+  end
+
   def self.pronouns(person, lang = :eng)
     return @@pronouns[lang] if person.nil?
     @@pronouns[lang][person]
@@ -59,12 +72,17 @@ class Sentence
   def self.convert_pronoun(options, pronoun)
     from_person = options[:from_person] || :first
     to_person = options[:to_person]
-    index = self.pronouns(from_person).index(pronoun)
-    self.pronouns(to_person)[index]
+    lang = options[:lang]
+    index = self.pronouns(from_person, lang).index(pronoun)
+    self.pronouns(to_person, lang)[index]
   end
 
   def self.tenses
     [:past, :present, :future]
+  end
+
+  def self.rus_tenses
+    [:прошлое, :настоящее, :будущее]
   end
 
   def self.expression_forms
