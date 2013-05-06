@@ -54,4 +54,27 @@ describe Russian_Sentence do
     Russian_Sentence.database_verbs_diff.should == []
   end
 
+  describe "sentence DSL" do
+
+    it "uses 'present' tense and 'statement' expression form by default" do
+      sentence.pronoun("я").verb("любить").assemble!.should == "я люблю"
+    end
+
+    it "supports second person pronoun" do
+      sentence.pronoun("мы").verb("любить").pronoun("он", :person => :second).assemble!.should == "мы любим ему/его"
+    end
+
+    it "supports question words" do
+      sentence.expression_form(:question).add("что").pronoun("вы").verb("делать").assemble!.should == "что вы делаете ?"
+    end
+
+    it "supports prepositions and nouns" do
+      sentence.pronoun("я").verb("жить").add("в").add("Лондон").assemble!.should == "я живу в Лондон"
+    end
+
+    it "supports additional verbs" do
+      sentence.pronoun("я").verb("любить").verb("жить").assemble!.should == "я люблю жить"
+    end
+  end
+
 end

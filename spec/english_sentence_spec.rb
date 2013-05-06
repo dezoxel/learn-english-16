@@ -84,4 +84,27 @@ describe English_Sentence do
     sentence.tense(:future).expression_form(:negation)
       .pronoun("they").verb("love").assemble!.should == "they won't love"
   end
+
+  describe "sentence DSL" do
+
+    it "uses 'present' tense and 'statement' expression form by default" do
+      sentence.pronoun("i").verb("love").assemble!.should == "i love"
+    end
+
+    it "supports second person pronoun" do
+      sentence.pronoun("we").verb("love").pronoun("he", :person => :second).assemble!.should == "we love him"
+    end
+
+    it "supports question words" do
+      sentence.expression_form(:question).add("what").pronoun("you").verb("do").assemble!.should == "what do you do ?"
+    end
+
+    it "supports prepositions and nouns" do
+      sentence.pronoun("i").verb("live").add("in").add("London").assemble!.should == "i live in London"
+    end
+
+    it "supports additional verbs" do
+      sentence.pronoun("i").verb("love").verb("live").assemble!.should == "i love to live"
+    end
+  end
 end
