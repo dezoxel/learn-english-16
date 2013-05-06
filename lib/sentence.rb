@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 class Sentence
-  attr_accessor :tense, :expression_form, :lang
+  attr :tense, :expression_form, :lang
 
   def initialize
     @parts = []
@@ -17,7 +17,7 @@ class Sentence
 
     raise "Unknown person. Allowable are ':first', ':second', ':third'" unless Sentence.validate_person(person) 
     raise "Unknown language. Allowable are ':eng', ':rus'" unless Sentence.validate_language(lang) 
-    raise "Unknown pronoun. Allowable are '#{Sentence.pronouns(person, lang).join(", ")}'" unless Sentence.validate_pronoun(pronoun, person, lang) 
+    raise "Unknown pronoun. Allowable are '#{Sentence.pronouns(:first, lang).join(", ")}'" unless Sentence.validate_pronoun(pronoun, :first, lang) 
 
     word = Sentence.convert_pronoun({:to_person => person, :lang => lang}, pronoun)
     @parts <<  {:value => word, :type => :pronoun}

@@ -5,7 +5,7 @@ describe English_Sentence do
   let(:sentence) { English_Sentence.new }
 
   context "when builds present statement sentence" do
-    let(:sentence) { English_Sentence.new.tap{ |s| s.tense = :present; s.expression_form = :statement } }
+    let(:sentence) { English_Sentence.new.tense(:present).expression_form(:statement) }
 
     it "builds present statement sentence" do
       sentence.pronoun("i").verb("love").assemble!.should == "i love"
@@ -22,7 +22,7 @@ describe English_Sentence do
   end
 
   context "when builds present question sentence" do
-    let(:sentence) { English_Sentence.new.tap{ |s| s.tense = :present; s.expression_form = :question } }
+    let(:sentence) { English_Sentence.new.tense(:present).expression_form(:question) }
 
     it "builds present question sentence" do
       sentence.pronoun("we").verb("love").assemble!.should == "do we love ?"
@@ -35,7 +35,7 @@ describe English_Sentence do
   end
 
   context "when builds present negation sentence" do
-    let(:sentence) { English_Sentence.new.tap{ |s| s.tense = :present; s.expression_form = :negation } }
+    let(:sentence) { English_Sentence.new.tense(:present).expression_form(:negation) }
 
     it "builds present negation sentence" do
       sentence.pronoun("you").verb("love").assemble!.should == "you don't love"
@@ -48,7 +48,7 @@ describe English_Sentence do
   end
 
   context "when builds past statement sentence" do
-    let(:sentence) { English_Sentence.new.tap{ |s| s.tense = :past; s.expression_form = :statement } }
+    let(:sentence) { English_Sentence.new.tense(:past).expression_form(:statement) }
 
     it "builds past statement sentence" do
       sentence.pronoun("they").verb("love").assemble!.should == "they loved"
@@ -61,27 +61,27 @@ describe English_Sentence do
   end
 
   it "builds past question sentence" do
-    sentence.tap{ |s| s.tense = :past; s.expression_form = :question }
+    sentence.tense(:past).expression_form(:question)
       .pronoun("you").verb("love").assemble!.should == "did you love ?"
   end
 
   it "builds past negation sentence" do
-    sentence.tap{ |s| s.tense = :past; s.expression_form = :negation }
+    sentence.tense(:past).expression_form(:negation)
       .pronoun("she").verb("love").assemble!.should == "she didn't love"
   end
 
   it "builds future statement sentence" do
-    sentence.tap{ |s| s.tense = :future; s.expression_form = :statement }
+    sentence.tense(:future).expression_form(:statement)
       .pronoun("i").verb("love").assemble!.should == "i will love"
   end
 
   it "builds future question sentence" do
-    sentence.tap{ |s| s.tense = :future; s.expression_form = :question }
+    sentence.tense(:future).expression_form(:question)
       .pronoun("you").verb("love").assemble!.should == "will you love ?"
   end
 
   it "builds future negation sentence" do
-    sentence.tap{ |s| s.tense = :future; s.expression_form = :negation }
+    sentence.tense(:future).expression_form(:negation)
       .pronoun("they").verb("love").assemble!.should == "they won't love"
   end
 end
